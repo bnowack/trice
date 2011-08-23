@@ -24,8 +24,8 @@ class DateTimeUtils {
   }
   
   /**
-   * Returns the XSD ISO date for the given Unix timestamp. 
-   * @return int 
+   * Returns the XSD date or dateTime value for the given Unix timestamp. 
+   * @return string 
    */
   static public function getUtcXsd($uts = null, $withTime = false, $isUtc = false) {
     /* unix timestamp */
