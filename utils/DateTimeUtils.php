@@ -23,6 +23,10 @@ class DateTimeUtils {
     return $uts - date('Z', $uts);
   }
   
+  /**
+   * Returns the XSD ISO date for the given Unix timestamp. 
+   * @return int 
+   */
   static public function getUtcXsd($uts = null, $withTime = false, $isUtc = false) {
     /* unix timestamp */
     if ($uts == null) {
