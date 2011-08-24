@@ -20,8 +20,11 @@ class Trice {
 
   /* instance registry for (named) singletons */
   protected static $singletonRegistry = array();
+  /* request object */
   protected static $request = null;
+  /* response object */
   protected static $response = null;
+  /* command queue */
   protected static $commandQueue = null;
   
   /* Disable instantiation. */
@@ -47,7 +50,7 @@ class Trice {
   }
   
   /**
-   * Returns an object instance from a local (sort-of) singleton registry.
+   * Returns an object instance from a local singleton registry (sort-of).
    * 
    * Supports multiple instances of a class through an $instanceName identifier,
    * i.e. the instances are not necessarily singletons.
@@ -112,7 +115,9 @@ class Trice {
   }
   
   /**
-   * Returns a request singleton
+   * Returns a request singleton.
+   * 
+   * @return Request
    */
   static public function getRequest() {
     if (self::$request === null) {
@@ -123,7 +128,9 @@ class Trice {
   }
   
   /**
-   * Returns a response singleton
+   * Returns a response singleton.
+   * 
+   * @return Response
    */
   static public function getResponse() {
     if (self::$response === null) {
@@ -134,7 +141,9 @@ class Trice {
   }
   
   /**
-   * Returns a command queue singleton
+   * Returns a command queue singleton.
+   * 
+   * @return CommandQueue
    */
   static public function getCommandQueue() {
     if (self::$commandQueue === null) {
@@ -167,7 +176,5 @@ class Trice {
       $e->handleException();
     }
   }
-  
-  
-  
+   
 }

@@ -31,7 +31,6 @@ use \trice\Configuration as Configuration;
  */
 class Response {
   
-  // class variables
   protected $statusCode = 501;
   protected $statusCodes = array(
     200 => 'OK',
@@ -58,6 +57,9 @@ class Response {
   
   /**
    * Sets the response status.
+   * 
+   * @param string $code
+   * @return Response
    */
   public function setStatus($code) {
     $this->statusCode = $code;
@@ -69,6 +71,10 @@ class Response {
   
   /**
    * Sets a response header.
+   * 
+   * @param string $name
+   * @param string $value
+   * @return Response
    */
   public function setHeader($name, $value) {
     $this->headers[$name] = $value;
@@ -77,6 +83,10 @@ class Response {
   
   /**
    * Returns the template for the given $container.
+   * 
+   * @param string $name
+   * @param mixed $default
+   * @return mixed
    */
   public function getHeader($name, $default = null) {
     return isset($this->headers[$name]) ? $this->headers[$name] : $default;
@@ -84,6 +94,10 @@ class Response {
   
   /**
    * Sets the template for the given $container.
+   * 
+   * @param string $container
+   * @param string $path
+   * @return Response
    */
   public function setTemplate($container, $path) {
     $this->templates[$container] = $path;
@@ -92,6 +106,10 @@ class Response {
   
   /**
    * Returns the template for the given $container.
+   * 
+   * @param string $container
+   * @param mixed $default
+   * @return mixed
    */
   public function getTemplate($container, $default = null) {
     return isset($this->templates[$container]) ? $this->templates[$container] : $default;
@@ -99,6 +117,10 @@ class Response {
   
   /**
    * Sets a namespace prefix and URI.
+   * 
+   * @param string $prefix
+   * @param string $uri
+   * @return Response
    */
   public function setNamespace($prefix, $uri) {
     $this->namespaces[$prefix] = $uri;
@@ -107,6 +129,10 @@ class Response {
   
   /**
    * Returns the namespace URI for the given $prefix.
+   * 
+   * @param string $prefix
+   * @param mixed $default
+   * @return mixed
    */
   public function getNamespace($prefix, $default = null) {
     return isset($this->namespaces[$prefix]) ? $this->namespaces[$prefix] : $default;
@@ -114,6 +140,8 @@ class Response {
   
   /**
    * Returns the complete namespace array.
+   * 
+   * @return array
    */
   public function getNamespaces() {
     return $this->namespaces;
@@ -121,6 +149,10 @@ class Response {
   
   /**
    * Sets a meta element.
+   * 
+   * @param string $name
+   * @param string $content
+   * @return Response
    */
   public function setMeta($name, $content) {
     $this->meta[$name] = $content;
@@ -129,6 +161,10 @@ class Response {
   
   /**
    * Returns the meta content for the given $name.
+   * 
+   * @param string $name
+   * @param mixed $default
+   * @return mixed
    */
   public function getMeta($name, $default = null) {
     return isset($this->meta[$name]) ? $this->meta[$name] : $default;
@@ -136,6 +172,8 @@ class Response {
   
   /**
    * Returns the complete meta array.
+   * 
+   * @return array
    */
   public function getMetaElements() {
     return $this->meta;
@@ -143,6 +181,10 @@ class Response {
   
   /**
    * Sets a link relation.
+   * 
+   * @param string $relation
+   * @param string $href
+   * @return Response
    */
   public function setLink($relation, $href) {
     $this->links[$relation] = $href;
@@ -151,6 +193,10 @@ class Response {
   
   /**
    * Returns the link href for the given $relation.
+   * 
+   * @param string $relation
+   * @param mixed $default
+   * @return mixed
    */
   public function getLink($relation, $default = null) {
     return isset($this->links[$relation]) ? $this->links[$relation] : $default;
@@ -158,6 +204,8 @@ class Response {
   
   /**
    * Returns the complete links array.
+   * 
+   * @return array
    */
   public function getLinks() {
     return $this->links;
@@ -165,6 +213,10 @@ class Response {
   
   /**
    * Adds a stylesheet.
+   * 
+   * @param string $path
+   * @param string $media
+   * @return Response
    */
   public function addStylesheet($path, $media = 'all') {
     if (!isset($this->stylesheets[$media])) {
@@ -178,6 +230,10 @@ class Response {
   
   /**
    * Returns the stylesheets for a given $media type, or the complete set.
+   * 
+   * @param string $media
+   * @param mixed $default
+   * @return mixed
    */
   public function getStylesheets($media = null, $default = null) {
     if ($media !== null) {
@@ -188,6 +244,10 @@ class Response {
   
   /**
    * Adds a script.
+   * 
+   * @param string $src
+   * @param string $type
+   * @return Response
    */
   public function addScript($src, $type = 'text/javascript') {
     if (!isset($this->scripts[$type])) {
@@ -201,6 +261,10 @@ class Response {
   
   /**
    * Returns the scripts for a given $type, or the complete set.
+   * 
+   * @param string $type
+   * @param mixed $default
+   * @return mixed
    */
   public function getScripts($type = 'text/javascript', $default = null) {
     if ($type !== null) {
@@ -211,6 +275,8 @@ class Response {
   
   /**
    * Returns the complete stylesheets array.
+   * 
+   * @return array
    */
   public function getAllStylesheets() {
     return $this->stylesheets;
@@ -218,6 +284,10 @@ class Response {
   
   /**
    * Sets a response variable.
+   * 
+   * @param string $name
+   * @param string $value
+   * @return Response
    */
   public function setVariable($name, $value) {
     $this->variables[$name] = $value;
@@ -226,6 +296,8 @@ class Response {
   
   /**
    * Alias for setVariable
+   * 
+   * @see self::setVariable()
    */
   public function set($name, $value) {
     return $this->setVariable($name, $value);
@@ -233,6 +305,10 @@ class Response {
   
   /**
    * Adds a response variable.
+   * 
+   * @param string $name
+   * @param string $value
+   * @return Response
    */
   public function addVariable($name, $value) {
     if (!isset($this->variables[$name])) {
@@ -244,13 +320,39 @@ class Response {
   
   /**
    * Alias for addVariable
+   * 
+   * @see self::addVariable
    */
   public function add($name, $value) {
     return $this->addVariable($name, $value);
   }
   
   /**
+   * Appends data or an entry to a response variable.
+   * 
+   * @param string $name
+   * @param string $value
+   * @return Response
+   */
+  public function append($name, $value) {
+    if (!isset($this->variables[$name])) {
+      $this->setVariable($name, $value);
+    }
+    elseif (is_string($this->variables[$name])) {
+      $this->variables[$name] .= $value;
+    }
+    elseif (is_array($this->variables[$name])) {
+      $this->variables[$name][] = $value;
+    }
+    return $this;
+  }
+  
+  /**
    * Returns a response variable.
+   * 
+   * @param string $name
+   * @param mixed $default
+   * @return mixed 
    */
   public function getVariable($name, $default = null) {
     return isset($this->variables[$name]) ? $this->variables[$name] : $default;
@@ -258,6 +360,8 @@ class Response {
   
   /**
    * Alias for getVariable.
+   * 
+   * @see self::getVariable()
    */
   public function get($name, $default = null) {
     return $this->getVariable($name, $default);
@@ -265,16 +369,18 @@ class Response {
   
   /**
    * Returns the complete variables array.
+   * 
+   * @return array
    */
   public function getVariables() {
     return $this->variables;
   }
-  
-  
+    
   /**
    * Builds the response result (if not already done) by processing the page template.
    * 
-   * @param Request $request 
+   * @param Request $request
+   * @return Response
    */
   public function buildResult(Request $request) {
     /* hard-wired response, nothing to do */
@@ -290,6 +396,7 @@ class Response {
    * Sends the defined headers to the client.
    * 
    * @param Request $request 
+   * @return Response
    */
   public function sendHeaders(Request $request) {
     /* status header */
@@ -302,7 +409,7 @@ class Response {
   }
   
   /**
-   * Sends 
+   * Prints the response result.
    * 
    * @param Request $request 
    */
@@ -329,6 +436,7 @@ class Response {
    *    $this->set('head', '');
    * 
    * @param string $container
+   * @return string
    */
   public function render($container) {
     $result = $this->getVariable($container);
@@ -361,7 +469,7 @@ class Response {
     if ($lang) {
       $result = $this->translate($result, $lang);
     }
-    /* encoding (e.g. utf8) */
+    /* encoding (e.g. utf-8) */
     $enc = $this->getVariable("{$container}Encoding");
     if ($enc) {
       $result = $this->encode($result, $enc);
@@ -369,16 +477,36 @@ class Response {
     return $result;
   }
   
-  public function translate($result, $language) {
-    return $result;
-  }
-  
-  public function encode($result, $encoding) {
-    return $result;
+  /**
+   * Translates a string value.
+   * 
+   * @param string $value
+   * @param string $language
+   * @return string
+   * @todo implement it
+   */
+  public function translate($value, $language) {
+    return $value;
   }
   
   /**
-   * Catches undefined method calls in the template.
+   * Encodes a string value (e.g. as "utf-8").
+   * 
+   * @param string $value
+   * @param string $encoding
+   * @return string
+   * @todo implement it
+   */
+  public function encode($value, $encoding) {
+    return $value;
+  }
+  
+  /**
+   * Interceptor to catch undefined method calls (mainly in templates).
+   * 
+   * @param string $methodName
+   * @param array $args
+   * @return mixed
    */
   public function __call($methodName, $args) {
     $className = ucfirst($methodName) . 'Helper';
@@ -393,6 +521,12 @@ class Response {
     return "[not implemented: {$className}()]";
   }
   
+  /**
+   * Interceptor to catch undefined property accesses (mainly in templates).
+   * 
+   * @param string $propertyName
+   * @return mixed 
+   */
   public function __get($propertyName) {
     $result = $this->getVariable($propertyName);
     if ($result === null) {
