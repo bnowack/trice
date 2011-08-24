@@ -110,19 +110,20 @@ class CommandQueue implements \Iterator {
     }
     /* non-matching path match */
     if ($pathMatch && !$request->pathMatches($pathMatch)) {
-      return;
+      return $this;
     }
     /* non-implemented command class */
     if (!class_exists($className, true)) {
-      return;
+      return $this;
     }
     /* non-applicable command */
     if (!$className::isApplicable($request, $response)) {
-      return;
+      return $this;
     }
     /* instantiate and execute the command */
     $command = new $className();
     $command->run($request, $response);
+    return $this;
   }
  
   
