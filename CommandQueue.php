@@ -99,6 +99,14 @@ class CommandQueue implements \Iterator {
     return $this->queue[$pos];
   }
   
+  /**
+   * Runs the iterators current command or the one specified in $className.
+   * 
+   * @param Request $request
+   * @param Response $response
+   * @param string $className
+   * @return CommandQueue 
+   */
   public function processCommand($request, $response, $className = null) {
     if ($className === null) {
       $className = $this->current();
