@@ -6,12 +6,12 @@ use \trice\Request as Request;
 use \trice\Response as Response;
 
 /**
- * Command interface.
+ * Abstract Command class.
  * 
  * @package Trice
  * @author Benjamin Nowack <mail@bnowack.de> 
  */
-interface Command {
+abstract class Command {
   
   /**
    * Checks whether the command applies to the given request.
@@ -20,7 +20,9 @@ interface Command {
    * @param Response $response
    * @return bool 
    */
-  public static function isApplicable(Request $request, Response $response);
+  public static function isApplicable(Request $request, Response $response) {
+    return $response->get('isComplete') ? false : true;
+  }
   
   /**
    * Executes the command.
@@ -28,6 +30,6 @@ interface Command {
    * @param Request $request
    * @param Response $response
    */
-  public function run(Request $request, Response $response);
+  abstract public function run(Request $request, Response $response);
   
 }
