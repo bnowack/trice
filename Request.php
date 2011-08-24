@@ -162,7 +162,8 @@ class Request {
   public function pathMatches($pattern) {
     /* Create a valid regex pattern. */
     if (!preg_match('/^\//', $pattern)) {
-      $pattern = '/' . preg_quote($pattern, '/') . '/';
+      $pattern = preg_replace('/([\/\.])/', '\\\\\1', $pattern);
+      $pattern = '/' . $pattern . '/';
     }
     /* Compare the pattern against the request path. */
     $path = $this->getParameter('clean_path', 'computed');
