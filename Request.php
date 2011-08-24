@@ -105,6 +105,7 @@ class Request {
       /* relevant app path */
       $r['path'] = preg_replace('/^' . preg_quote($r['rel_base'], '/') . '/', '', $_SERVER['REQUEST_URI']);
       $r['clean_path'] = preg_replace('/\?.*$/', '', $r['path']);
+      $r['path_parts'] = explode('/', $r['clean_path']);
       /* REST / Linked Data */
       $r['extension'] = preg_match('/^[^\.]*\.(.+)$/', $r['clean_path'], $m) ? strtolower($m[1]) : null;
       $r['resource_path'] = preg_replace('/\.' . preg_quote($r['extension'], '/') . '$/i', '', $r['clean_path']);
@@ -161,7 +162,7 @@ class Request {
   public function pathMatches($pattern) {
     /* Create a valid regex pattern. */
     if (!preg_match('/^\//', $pattern)) {
-      $pattern = '/' . $pattern . '/';
+      $pattern = '/' . preg_quote($pattern, '/') . '/';
     }
     /* Compare the pattern against the request path. */
     $path = $this->getParameter('clean_path', 'computed');
