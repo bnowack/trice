@@ -14,14 +14,7 @@ use \trice\Response as Response;
  * @package Trice
  * @author Benjamin Nowack <mail@bnowack.de> 
  */
-class HtmlDocumentCommand implements \trice\Command {
-  
-  /**
-   * @see \trice\Command::isApplicable()
-   */
-  public static function isApplicable(Request $request, Response $response) {
-    return $response->get('isComplete') ? false : true;
-  }
+class HtmlDocumentCommand extends \trice\Command {
   
   /**
    * @see \trice\Command::run()
