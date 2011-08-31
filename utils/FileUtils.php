@@ -1,20 +1,21 @@
 <?php
 
+namespace trice\utils;
+
 /**
- * Trice file system utilities
+ * Trice file system utilities class
  * 
  * @package Trice
  * @author Benjamin Nowack <mail@bnowack.de> 
  */
-
-namespace trice\utils;
-
 class FileUtils {
 
   /**
-   * Generates missing parent directories for a given filePath.
+   * Generates missing parent directories for a given $filePath.
    * 
-   * @param bool success
+   * @param string $filePath
+   * @param int $mode
+   * @return bool success
    */
   static public function createFileDirectories($filePath, $mode = 0777) {
     $dirPath = preg_replace('/\/[^\/]*$/', '', $filePath);
