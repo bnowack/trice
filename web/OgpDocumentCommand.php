@@ -14,7 +14,7 @@ use \trice\Response as Response;
  * @package Trice
  * @author Benjamin Nowack <mail@bnowack.de> 
  */
-class OgpDocumentCommand implements \trice\Command {
+class OgpDocumentCommand extends \trice\Command {
   
   /**
    * @see \trice\Command::isApplicable()
