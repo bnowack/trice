@@ -8,36 +8,30 @@ use \trice\Request as Request;
 use \trice\Response as Response;
 
 /**
- * Favicon command for efficient handling of favicon requests by browsers.
+ * Favicon command for efficient handling of "/favicon.ico" GETs by browsers.
  * 
  * @package Trice
  * @author Benjamin Nowack <mail@bnowack.de> 
  */
-class FaviconCommand implements \trice\Command {
-  
-  /**
-   * @see \trice\Command::isApplicable()
-   */
-  public static function isApplicable(Request $request, Response $response) {
-    if ($response->get('isComplete')) {
-      return false;
-    }
-    return true;
-  }
+class FaviconCommand extends \trice\Command {
   
   /**
    * @see \trice\Command::run()
    */
   public function run(Request $request, Response $response) {
-    /* default: 404 */
-    $response->setStatus(404);
-    /* use the favicon helper to find the img file */
+    // Use the favicon helper to find the img file.
     $href = $response->faviconHref(true);
+    // Redirect client to favicon file if one exists.
     if ($href) {
       $response->setStatus(302);
       $response->setHeader('Location', $href);
       $response->set('result', '<a href="' . $href . '">Found</a>');
     }
+    // Default: 404
+    else {
+      $response->setStatus(404);
+    }
+    // Avoid further command processing.
     $response->set('isComplete', true);
   }
   
