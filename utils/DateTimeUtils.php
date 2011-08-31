@@ -1,14 +1,13 @@
 <?php
 
+namespace trice\utils;
+
 /**
- * Trice Date/Time utilities
+ * Trice Date/Time utilities class
  * 
  * @package Trice
  * @author Benjamin Nowack <mail@bnowack.de> 
  */
-
-namespace trice\utils;
-
 class DateTimeUtils {
   
   /**
