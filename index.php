@@ -7,18 +7,23 @@
  * 
  */
 
-/* App include path (relative) */
-define('TRICE_ROOT_PATH', '');
+// Code include paths (relative)
+defined('TRICE_DIR') || define('TRICE_DIR', 'code/trice/');
+defined('PHWEB_DIR') || define('PHWEB_DIR', 'code/phweb/');
+
+// Configuration file (relative)
+defined('TRICE_INI_PATH') || define('TRICE_INI_PATH', 'config/trice.ini');
 
 /* Ensure time() is E_STRICT-compliant (optional if specified in php.ini) */
 if (function_exists('date_default_timezone_get')) {
-  date_default_timezone_set(@date_default_timezone_get());
+	date_default_timezone_set(@date_default_timezone_get());
 }
 
-/* Load Trice, all other classes will get autoloaded. */
-require_once(TRICE_ROOT_PATH . 'code/trice/Trice.php');
+/* Load PhWeb and its autoloader */
+require_once(PHWEB_DIR . 'PhWeb.php');
 
-/* Let Trice handle the request */
+/* Load Trice and its autoloader */
+require_once(TRICE_DIR . 'Trice.php');
+
+/* Let Trice take it from here */
 trice\Trice::handleRequest();
-
-?>

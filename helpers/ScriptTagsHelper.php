@@ -6,16 +6,16 @@ use \trice\Trice as Trice;
 use \phweb\Configuration as Configuration;
 
 /**
- * Style-Tags Helper.
+ * Script-Tags Helper.
  * Generates <style /> markup.
  * 
  * @package Trice
  * @author Benjamin Nowack <mail@bnowack.de> 
  */
-class StyleTagsHelper {
-
+class ScriptTagsHelper {
+	
 	/**
-	 * Returns style-tags.
+	 * Returns script-tags.
 	 * 
 	 * @see \trice\Helper::run()	 * 
 	 */
@@ -28,26 +28,25 @@ class StyleTagsHelper {
 		$dirs = array(
 			"layouts/{$layout}/",
 			"layouts/system/",
+			"code/"
 		);
 		
-		$els = $response->getStylesheets();
+		$els = $response->getScripts(null);
 	
-		foreach ($els as $media => $paths) {
-			$r .= "\n		<style type=\"text/css\" media=\"{$media}\">";
+		foreach ($els as $type => $paths) {
 			foreach ($paths as $path) {
-				$url = $path;
+				$src = $path;
 				// use the first matching path
 				foreach ($dirs as $dir) {
 					if ($dir && file_exists("{$dir}{$path}")) {
-						$url = "{$relBase}{$dir}{$path}";
+						$src = "{$relBase}{$dir}{$path}";
 						break;
 					}
 				}
-				$r .= "\n			@import url({$response->html($url)});";
+				$r .= "\n		<script type=\"{$type}\" src=\"{$src}\"></script>";
 			}
-			$r .= "\n		</style>";
 		}
 		return $r;
 	}
-
+	
 }

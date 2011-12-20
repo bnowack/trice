@@ -9,12 +9,12 @@ namespace trice;
  * @author Benjamin Nowack <mail@bnowack.de> 
  */
 interface Helper {
-  
-  /**
-   * Executes the helper.
-   *    
-   * @param mixed $args
-   */
-  public function run($args = array());
-  
+	
+	/**
+	 * Executes the helper.
+	 *	
+	 * @param mixed $args
+	 */
+	public function run($args = array());
+	
 }
