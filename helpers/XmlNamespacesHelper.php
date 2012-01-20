@@ -3,7 +3,6 @@
 namespace trice\helpers;
 
 use \trice\Trice as Trice;
-use \phweb\Configuration as Configuration;
 
 /**
  * XML Namespaces Helper.
@@ -20,14 +19,13 @@ class XmlNamespacesHelper {
 	 * @see \trice\Helper::run()	 * 
 	 */
 	public function run() {
-	$r = '';
-	$response = Trice::getResponse();
-	$namespaces = $response->getNamespaces();
-	foreach ($namespaces as $prefix => $uri) {
-		$prefix = $prefix ? 'xmlns:' . $prefix : 'xmlns';
-		$r .= ($r ? ' ' : '') . $prefix . '="' . $uri . '"';
-	}
-	return $r ? " $r" : '';
+		$r = '';
+		$namespaces = Trice::getResponse()->getNamespaces();
+		foreach ($namespaces as $prefix => $uri) {
+			$prefix = $prefix ? 'xmlns:' . $prefix : 'xmlns';
+			$r .= ($r ? ' ' : '') . $prefix . '="' . $uri . '"';
+		}
+		return $r ? " $r" : '';
 	}
 	
 }

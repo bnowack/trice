@@ -25,14 +25,11 @@ defined('TRICE_DIR') || define('TRICE_DIR', rtrim(dirname(__FILE__)) . '/');
  */
 class Trice {
 
-	// instance registry for (named) singletons
 	protected static $singletonRegistry = array();
-	// request object
 	protected static $request = null;
-	// response object
 	protected static $response = null;
-	// controller queue
 	protected static $controllerQueue = null;
+	protected static $autoLoaded = array();
 
 	/* Disable instantiation. */
 	protected function __construct() {}
@@ -46,6 +43,8 @@ class Trice {
 	 * @param string $className 
 	 */
 	public static function autoload($className) {
+		if (isset(self::$autoLoaded[$className])) return;
+		self::$autoLoaded[$className] = true;
 		$dirs = array(
 			preg_replace('/trice\/$/', '', TRICE_DIR),
 			TRICE_DIR,
@@ -55,18 +54,24 @@ class Trice {
 		}
 		foreach ($dirs as $rootDir) {
 			$path =	$rootDir . str_replace(array('\\', '_'), '/', $className) . '.php';
+			$path = str_replace('/trice/trice/', '/trice/', $path);
 			if (file_exists($path)) {
 				require($path);
 				break;
 			}
 		}
-		if (!class_exists($className, false)) {
-			self::log("Could not autoload '{$className}' ('{$path}').", 'autoload_info');
+		if (!class_exists($className, false) && !interface_exists($className, false)) {
+			// don't log class auto-loading to avoid circular refs
+			if (preg_match('/Log$/', $className)) return;
+			self::log("Could not autoload '{$className}' ('{$path}') in Trice. {$_SERVER['REQUEST_URI']}", 'autoload_info');
+		}
+		else {
+			self::log("Autoloaded '{$className}' ('{$path}') in Trice.", 'autoload_info');
 		}
 	}
 	
-	public static function getConfiguration() {
-		return Configuration;
+	public static function getConfiguration($name = '', $default = null) {
+		return $name ? Configuration::get($name, $default) : Configuration;
 	}
 	
 	/**
@@ -173,6 +178,16 @@ class Trice {
 		return self::getRegistryInstance('trice\session\Session');
 	}
 	
+	static public function getSessionId() {
+		$session = self::getSession();
+		return $session->getId();
+	}
+	
+	static public function persistSession() {
+		$session = self::getSession();
+		$session->persist();
+	}
+	
 	/**
 	 * Dispatches the request and processes the controller queue.
 	 */
@@ -188,11 +203,16 @@ class Trice {
 			$queue = self::getControllerQueue();
 			// process the queue
 			foreach ($queue as $controllerClassName) {
-				$queue->processController($request, $response);
+				$queue->processController();
+			}
+			// 404
+			if (!$response->get('isComplete')) {
+				$response->notFound();
 			}
 			$response->buildResult($request) // may still tweak headers
 					 ->sendHeaders($request)
 					 ->sendResult($request);
+			self::persistSession();
 		}
 		catch (Exception $e) {
 			$e->handleException();

@@ -2,9 +2,11 @@
 var trice = {
 	
 	init: function() {
-		
-		console.log(trice.getRelBase());
-		console.log(trice.getAbsBase());
+		$.ajaxSetup({
+			
+		});
+		//console.log(trice.getRelBase());
+		//console.log(trice.getAbsBase());
 	},
 	
 	loadScript: function(src, id) {
@@ -34,10 +36,9 @@ var trice = {
   
 	run: function() {
 	}
-
-
+	
 }
 
-if (jQuery) $(trice.init);
+if (window['jQuery']) $(trice.init);
 
 

@@ -1,0 +1,145 @@
+
+/* bootstrap goodies */
+.button{cursor:pointer;display:inline-block;background-color:#e6e6e6;background-repeat:no-repeat;background-image:-webkit-gradient(linear, 0 0, 0 100%, from(#ffffff), color-stop(25%, #ffffff), to(#e6e6e6));background-image:-webkit-linear-gradient(#ffffff, #ffffff 25%, #e6e6e6);background-image:-moz-linear-gradient(top, #ffffff, #ffffff 25%, #e6e6e6);background-image:-ms-linear-gradient(#ffffff, #ffffff 25%, #e6e6e6);background-image:-o-linear-gradient(#ffffff, #ffffff 25%, #e6e6e6);background-image:linear-gradient(#ffffff, #ffffff 25%, #e6e6e6);filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#e6e6e6', GradientType=0);padding:5px 14px 6px;text-shadow:0 1px 1px rgba(255, 255, 255, 0.75);color:#333;font-size:13px;line-height:normal;border:1px solid #ccc;border-bottom-color:#bbb;-webkit-border-radius:4px;-moz-border-radius:4px;border-radius:4px;-webkit-box-shadow:inset 0 1px 0 rgba(255, 255, 255, 0.2),0 1px 2px rgba(0, 0, 0, 0.05);-moz-box-shadow:inset 0 1px 0 rgba(255, 255, 255, 0.2),0 1px 2px rgba(0, 0, 0, 0.05);box-shadow:inset 0 1px 0 rgba(255, 255, 255, 0.2),0 1px 2px rgba(0, 0, 0, 0.05);-webkit-transition:0.1s linear all;-moz-transition:0.1s linear all;-ms-transition:0.1s linear all;-o-transition:0.1s linear all;transition:0.1s linear all;}
+.button:hover{background-position:0 -15px;color:#333;text-decoration:none;}
+.button:focus{outline:1px dotted #666;}
+.button.submit{
+	color:#ffffff;
+	background-color: #0064cd;
+	background-repeat:repeat-x;
+	background-image:-khtml-gradient(linear, left top, left bottom, from(#049cdb), to(#0064cd));
+	background-image:-moz-linear-gradient(top, #049cdb, #0064cd);
+	background-image:-ms-linear-gradient(top, #049cdb, #0064cd);
+	background-image:-webkit-gradient(linear, left top, left bottom, color-stop(0%, #049cdb), color-stop(100%, #0064cd));
+	background-image:-webkit-linear-gradient(top, #049cdb, #0064cd);
+	background-image:-o-linear-gradient(top, #049cdb, #0064cd);
+	background-image:linear-gradient(top, #049cdb, #0064cd);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#049cdb', endColorstr='#0064cd', GradientType=0);
+	text-shadow:0 -1px 0 rgba(0, 0, 0, 0.25);
+	border-color:#0064cd #0064cd #003f81;
+	border-color:rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+}
+
+.button.delete {
+	background-color: #c00;
+	background-image:-khtml-gradient(linear, left top, left bottom, from(#e00), to(#c00));
+	background-image:-moz-linear-gradient(top, #e00, #c00);
+	background-image:-ms-linear-gradient(top, #e00, #c00);
+	background-image:-webkit-gradient(linear, left top, left bottom, color-stop(0%, #e00), color-stop(100%, #c00));
+	background-image:-webkit-linear-gradient(top, #e00, #c00);
+	background-image:-o-linear-gradient(top, #e00, #c00);
+	background-image:linear-gradient(top, #e00, #c00);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#e00', endColorstr='#c00', GradientType=0);
+	border-color:#c00 #c00 #e00;
+	color: #fff;
+}
+
+form {
+	
+}
+
+.field {
+	overflow: hidden;
+	width: 100%;
+	border: 0px solid transparent;
+	margin-bottom: 10px;
+}
+
+.field.hidden {
+	display: none;
+}
+
+.field label {
+	display: block;
+	font-size: 14px;
+	color: #555;
+	margin-bottom: 2px;
+}
+
+.field .entry select,
+.field .entry input {
+	width: 95%;
+	border: 1px solid #ccc;
+    border-radius: 3px 3px 3px 3px;
+    color: #808080;
+    display: inline-block;
+    font-size: 13px;
+    height: 18px;
+    line-height: 18px;
+    padding: 4px;
+}
+
+.field.select .entry select {
+	width: auto;
+    height: auto;
+}
+
+
+.field.text .entry input:focus,
+.field.password .entry input:focus {
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) inset;
+	border: 1px solid #049cdb;
+}
+
+/* message */
+
+.form .message {
+	padding: 5px;
+	margin-bottom: 10px;
+	background-color: #f0f0f0;
+	border: 1px solid #ddd;
+}
+
+/* errors */
+
+.field.error .entry.error input{
+	border-color: #c00;	
+}
+
+.field.error label {
+	color: #c00;
+}
+
+.form .message p {
+	padding: 5px 0;
+}
+
+.form .message .error {
+	color: #c00;
+}
+
+.form.closed .fields,
+.form.closed .buttons {
+	display: none;
+}
+
+/* suggestions */
+
+.form .suggestions {
+	position: absolute;
+	background-color: #fff;
+	margin-left: 5px;
+}
+
+.form .suggestions ul {
+	list-style-type: none;
+	padding: 0px;
+	margin: 0px 0px 0px 0px;
+    box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+	max-height: 300px;
+	overflow: auto;
+}
+
+.form .suggestions a,
+.form .suggestions em {
+	display: block;
+	padding: 4px 20px 4px 10px;
+	text-decoration: none;
+	font-weight: normal;
+}
+
+.form .suggestions a:hover, 
+.form .suggestions a:focus {
+	background-color: #f3f3f3;
+	outline: none;
+}

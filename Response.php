@@ -4,6 +4,7 @@ namespace trice;
 
 use \trice\Trice as Trice;
 use \phweb\Configuration as Configuration;
+use \phweb\utils\StringUtils as StringUtils;
 
 /**
  * Trice response object.
@@ -50,6 +51,7 @@ class Response {
 	protected $links = array();
 	protected $stylesheets = array();
 	protected $scripts = array();
+	protected $scriptCalls = array();
 
 	public function __construct() {
 		$this->setVariable('isComplete', false);
@@ -276,14 +278,19 @@ class Response {
 		}
 		return $this->scripts;
 	}
-
-	/**
-	* Returns the complete stylesheets array.
-	* 
-	* @return array
-	*/
-	public function xgetAllStylesheets() {
-		return $this->stylesheets;
+	
+	public function addScriptCall($call, $container = 'body') {
+		if (!isset($this->scriptCalls[$container])) {
+			$this->scriptCalls[$container] = array();
+		}
+		if (!in_array($call, $this->scriptCalls[$container])) {
+			$this->scriptCalls[$container][] = $call;
+		}
+		return $this;
+	}
+	
+	public function getScriptCalls($container) {
+		return isset($this->scriptCalls[$container]) ? $this->scriptCalls[$container] : array();
 	}
 
 	/**
@@ -380,6 +387,10 @@ class Response {
 		return $this->variables;
 	}
 	
+	public function complete($state = true) {
+		return $this->set('isComplete', $state);
+	}
+	
 	/**
 	* Builds the response result (if not already done) by processing the page template.
 	* 
@@ -472,6 +483,15 @@ class Response {
 				}
 			}
 		}
+		// script calls
+		$calls = $this->getScriptCalls($container);
+		if ($calls) {
+			$result .= '
+				<script type="text/javascript">
+					try {' . implode(";\n\t\t", $calls) . '} catch(e) { if (console) console.log(e) }
+				</script>
+			';
+		}
 		// localisation
 		$lang = $this->getVariable("{$container}Language");
 		if ($lang) {
@@ -506,7 +526,7 @@ class Response {
 	* @todo implement it
 	*/
 	public function encode($value, $encoding) {
-		return $value;
+		return StringUtils::toUtf8($value);
 	}
 	
 	/**
@@ -538,10 +558,24 @@ class Response {
 	public function __get($propertyName) {
 		$result = $this->getVariable($propertyName);
 		if ($result === null) {
-			$request = Trice::getRequest();
-			$result = $request->get($propertyName);
+			$result = Trice::getRequest()->get($propertyName);
 		}
 		return $result;
 	}
+	
+	public function notImplemented() {
+		return $this->setStatus(501)
+			->set('pageTitle', $this->getStatusString())
+			->set('content', $this->getStatusString())
+			->set('isComplete', true);
+	}	
+	
+	public function notFound() {
+		return $this->setStatus(404)
+			->set('pageTitle', $this->getStatusString())
+			->set('content', $this->getStatusString())
+			->set('isComplete', true);
+	}	
+	
 	
 }

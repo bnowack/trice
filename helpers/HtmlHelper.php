@@ -18,7 +18,7 @@ class HtmlHelper {
 	 * * @see \trice\Helper::run()
 	 */
 	public function run($value) {
-	return htmlspecialchars($value);
+		return htmlspecialchars($value);
 	}
 	
 }

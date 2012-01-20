@@ -2,8 +2,6 @@
 
 namespace trice;
 
-use \phweb\Request as Request;
-use \trice\Response as Response;
 use \phweb\utils\StringUtils as StringUtils;
 
 /**
@@ -21,8 +19,8 @@ abstract class Controller {
 	 * @param Response $response
 	 * @return bool 
 	 */
-	public static function isApplicable(Request $request, Response $response) {
-	return $response->get('isComplete') ? false : true;
+	public static function isApplicable() {
+		return Trice::getResponse()->get('isComplete') ? false : true;
 	}
 	
 	/**
@@ -31,7 +29,7 @@ abstract class Controller {
 	 * @param Request $request
 	 * @param Response $response
 	 */
-	abstract public function run(Request $request, Response $response);
+	abstract public function run();
 	
 	/**
 	 * Returns a controller method name based on a request path portion.
@@ -45,12 +43,13 @@ abstract class Controller {
 	 * @return mixed 
 	 */
 	public function getCall($level = 0) {
-	$request = Trice::getRequest();
-	$parts = $request->get('path_parts');
-	if (isset($parts[$level]) && $parts[$level]) {
-		return 'handle' . StringUtils::camelCase($parts[$level]) . 'Call';
-	}
-	return false;
+		$request = Trice::getRequest();
+		$parts = $request->get('pathParts');
+		if (($level == 0) && ($parts[0] == '')) return 'handleHomeCall';
+		if (isset($parts[$level]) && $parts[$level]) {
+			return 'handle' . StringUtils::camelCase($parts[$level]) . 'Call';
+		}
+		return false;
 	}
 	
 	/**
@@ -61,15 +60,16 @@ abstract class Controller {
 	 * @return bool
 	 */
 	public function handleCall($level = 0, $defaultCall = null) {
-	$method = $this->getCall($level);
-	if ($method && method_exists($this, $method)) {
-		$this->$method($level);
-		return true;
-	}
-	elseif ($defaultCall !== null) {
-		$this->$defaultCall($level);
-	}
-	return false;
+		$method = $this->getCall($level);
+		if ($method && method_exists($this, $method)) {
+			$this->$method($level);
+			return true;
+		}
+		elseif ($defaultCall && method_exists($this, $defaultCall)) {
+			$this->$defaultCall($level);
+			return true;
+		}
+		return false;
 	}
 	
 	/**
@@ -77,12 +77,17 @@ abstract class Controller {
 	 * 
 	 * @param type $level 
 	 */
-	public function handleNotImplementedCall($level) {
-	$response = Trice::getResponse();
-	$response->setStatus(501);
-	$response->set('pageTitle', $response->getStatusString());
-	$response->set('content', $response->getStatusString());
-	$response->set('isComplete', true);
+	public function handleNotImplementedCall($level = 0) {
+		Trice::getResponse()->notImplemented();
+	}
+	
+	/**
+	 * Triggers a 501 response.
+	 * 
+	 * @param type $level 
+	 */
+	public function handleNotFoundCall($level = 0) {
+		Trice::getResponse()->notFound();
 	}
 	
 }

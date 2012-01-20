@@ -3,7 +3,6 @@
 namespace trice\helpers;
 
 use \trice\Trice as Trice;
-use \phweb\Configuration as Configuration;
 
 /**
  * Meta-Tags Helper.
@@ -20,14 +19,14 @@ class MetaTagsHelper {
 	 * @see \trice\Helper::run()	 * 
 	 */
 	public function run() {
-	$r = '';
-	$response = Trice::getResponse();
-	$els = $response->getMetaElements();
-	foreach ($els as $name => $content) {
-		$nameAttribute = strpos($name, ':') ? 'property' : 'name';
-		$r .= "\n		<meta {$nameAttribute}=\"{$name}\" content=\"{$response->html($content)}\"/>";
-	}
-	return $r;
+		$r = '';
+		$response = Trice::getResponse();
+		$els = $response->getMetaElements();
+		foreach ($els as $name => $content) {
+			$nameAttribute = strpos($name, ':') ? 'property' : 'name';
+			$r .= "\n		<meta {$nameAttribute}=\"{$name}\" content=\"{$response->html($content)}\"/>";
+		}
+		return $r;
 	}
 	
 }

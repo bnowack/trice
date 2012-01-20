@@ -18,18 +18,18 @@ class FaviconHrefHelper {
 	 * * @see \trice\Helper::run()
 	 */
 	public function run($useAbsBase = false) {
-	$response = Trice::getResponse();
-	$request = Trice::getRequest();
-	/* check the layout dir for favicons */
-	$formats = array('gif', 'png', 'ico');
-	$layout = Configuration::get('app/layout', 'system');
-	foreach ($formats as $format) {
-		$path = "layouts/{$layout}/favicon.{$format}";
-		if (file_exists($path)) {
-		$baseArg = $useAbsBase ? 'abs_base' : 'rel_base';
-		return $request->get($baseArg, 'computed') . $path;
+		$response = Trice::getResponse();
+		$request = Trice::getRequest();
+		/* check the layout dir for favicons */
+		$formats = array('gif', 'png', 'ico');
+		$layout = Configuration::get('app/layout', 'system');
+		foreach ($formats as $format) {
+			$path = "layouts/{$layout}/favicon.{$format}";
+			if (file_exists($path)) {
+			$baseArg = $useAbsBase ? 'absBase' : 'relBase';
+			return $request->get($baseArg, 'computed') . $path;
+			}
 		}
-	}
 	}
 	
 }

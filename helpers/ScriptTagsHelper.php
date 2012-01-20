@@ -3,7 +3,6 @@
 namespace trice\helpers;
 
 use \trice\Trice as Trice;
-use \phweb\Configuration as Configuration;
 
 /**
  * Script-Tags Helper.
@@ -23,8 +22,8 @@ class ScriptTagsHelper {
 		$r = '';
 		$request = Trice::getRequest();
 		$response = Trice::getResponse();
-		$layout = Configuration::get('app/layout', 'system');
-		$relBase = $request->get('rel_base', 'computed');
+		$layout = Trice::getConfiguration('app/layout', 'system');
+		$relBase = $request->get('relBase', 'computed');
 		$dirs = array(
 			"layouts/{$layout}/",
 			"layouts/system/",
@@ -36,14 +35,16 @@ class ScriptTagsHelper {
 		foreach ($els as $type => $paths) {
 			foreach ($paths as $path) {
 				$src = $path;
+				$cacheId = date('dHi');
 				// use the first matching path
 				foreach ($dirs as $dir) {
 					if ($dir && file_exists("{$dir}{$path}")) {
 						$src = "{$relBase}{$dir}{$path}";
+						$cacheId = date('dHi', filemtime("{$dir}{$path}"));
 						break;
 					}
 				}
-				$r .= "\n		<script type=\"{$type}\" src=\"{$src}\"></script>";
+				$r .= "\n		<script type=\"{$type}\" src=\"{$src}?{$cacheId}\"></script>";
 			}
 		}
 		return $r;

@@ -3,9 +3,6 @@
 namespace trice\bots;
 
 use \trice\Trice as Trice;
-use \phweb\Configuration as Configuration;
-use \phweb\Request as Request;
-use \trice\Response as Response;
 use \phweb\Stream as Stream;
 
 /**
@@ -21,11 +18,11 @@ class MasterStarterController extends \trice\Controller {
 	 * 
 	 * @see \trice\Controller::run()
 	 */
-	public function run(Request $request, Response $response) {
-	$url = $request->get('abs_base') . 'bots/master/start';
-	Trice::log("Calling {$url}", 'bots');
-	$stream = new Stream($url);
-	$stream->ping();
+	public function run() {
+		$url = Trice::getRequest()->get('absBase') . 'bots/master/start';
+		Trice::log("Calling {$url}", 'bots');
+		$stream = new Stream($url);
+		$stream->ping();
 	}
 	
 }

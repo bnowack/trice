@@ -14,7 +14,7 @@ defined('PHWEB_DIR') || define('PHWEB_DIR', 'code/phweb/');
 // Configuration file (relative)
 defined('TRICE_INI_PATH') || define('TRICE_INI_PATH', 'config/trice.ini');
 
-/* Ensure time() is E_STRICT-compliant (optional if specified in php.ini) */
+/* Ensure time() is E_STRICT-compliant (optional, if specified in php.ini) */
 if (function_exists('date_default_timezone_get')) {
 	date_default_timezone_set(@date_default_timezone_get());
 }
