@@ -10,8 +10,7 @@ use \phweb\Configuration as Configuration;
 spl_autoload_register(array('trice\Trice', 'autoload'), true, true);
 
 // Make sure the Trice code directory is available.
-defined('TRICE_DIR') || define('TRICE_DIR', rtrim(dirname(__FILE__)) . '/');
-
+defined('TRICE_DIR') || define('TRICE_DIR', rtrim(dirname(__FILE__), '/') . '/');
 
 /**
  * Trice Core (static for global access).
@@ -44,30 +43,29 @@ class Trice {
 	 */
 	public static function autoload($className) {
 		if (isset(self::$autoLoaded[$className])) return;
-		self::$autoLoaded[$className] = true;
 		$dirs = array(
-			preg_replace('/trice\/$/', '', TRICE_DIR),
 			TRICE_DIR,
 		);
 		if (defined('TRICE_INCLUDE_DIR')) {
 			$dirs[] = TRICE_INCLUDE_DIR;
 		}
-		foreach ($dirs as $rootDir) {
-			$path =	$rootDir . str_replace(array('\\', '_'), '/', $className) . '.php';
-			$path = str_replace('/trice/trice/', '/trice/', $path);
-			if (file_exists($path)) {
-				require($path);
-				break;
+		$classPath = str_replace(array('\\', '_'), '/', $className) . '.php';
+		$paths = array(
+			$classPath,
+			str_replace('trice/', '', $classPath),
+		);
+		$found = false;
+		foreach ($dirs as $dir) {
+			foreach ($paths as $path) {
+				if (file_exists("$dir$path")) {
+					require_once("$dir$path");
+					$found = 1;
+					break;
+				}
 			}
+			if ($found) break;
 		}
-		if (!class_exists($className, false) && !interface_exists($className, false)) {
-			// don't log class auto-loading to avoid circular refs
-			if (preg_match('/Log$/', $className)) return;
-			self::log("Could not autoload '{$className}' ('{$path}') in Trice. {$_SERVER['REQUEST_URI']}", 'autoload_info');
-		}
-		else {
-			self::log("Autoloaded '{$className}' ('{$path}') in Trice.", 'autoload_info');
-		}
+		self::$autoLoaded[$className] = true;
 	}
 	
 	public static function getConfiguration($name = '', $default = null) {
